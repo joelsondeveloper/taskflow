@@ -1,7 +1,15 @@
 :root {
     --bg-color: #1E1E2E;
+    --bg-secondary-color: #333344;
+    --nav-color: #252538;
     --text-color: #fff;
-    --primary-color: #FFB900;
+    --text-secondary-color: #9CA3AF;
+
+    --padding-side: 1rem;
+
+    --padding-side: 1rem;
+
+    --blue-color: #7B68EE;
 }
 
 * {
@@ -15,4 +23,137 @@ body {
     color: var(--text-color);
     font-family: "Inter", sans-serif;
     font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.desktop-only {
+    display: none;
+}
+
+.mobile-only {
+    display: block;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--nav-color);
+    padding: 1.375rem var(--padding-side);
+}
+
+.header__logoicon {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+    /* flex: 1; */
+}
+
+.header__logoicon__image {
+    width: 1.25rem;
+}
+
+.header__logoicon__title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.header__searchbar {
+    display: flex;
+    width: 2rem;
+    flex: 1;
+    justify-content: end;
+}
+
+.header__searchbar__container {
+    position: relative;
+}
+
+.header__searchbar__image {
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    width: 1rem;
+}
+
+.header__searchbar__input {
+    background-color: var(--bg-secondary-color);
+    border: none;
+    color: var(--text-color);
+    padding: .5rem 1.5rem .5rem .5rem;
+    border-radius: .5rem;
+    width: 2rem;
+}
+
+.header__usericon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-left: .75rem;
+}
+
+.header__usericon__profile {
+    width: 100%;
+    height: 100%;
+}
+
+/* main */
+
+.controls {
+    padding: var(--padding-side) var(--padding-side) 0;
+    gap: .5rem;
+}
+
+.controls__nameproject {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: var(--padding-side);
+    
+}
+
+.controls__nameproject__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.controls__column {
+    display: flex;
+}
+
+.nav-button, .nav-button--add {
+    background-color: var(--bg-secondary-color);
+    border: none;
+    color: var(--text-secondary-color);
+    padding: var(--padding-side) 0;
+    border-radius: .5rem .5rem 0 0;
+    text-align: center;
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.nav-button {
+    flex: 1;
+}
+
+.nav-button--add {
+    padding: var(--padding-side);
+}
+
+.controls__column .counter {
+    background-color: var(--nav-color);
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

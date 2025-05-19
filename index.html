@@ -16,33 +16,77 @@
   </head>
   <body>
     <header class="header">
-      <div class="logoicon">
+      <div class="header__logoicon">
         <img
           src="images/Logo Icon.svg"
           alt="TaskFlow Logo"
-          class="logoicon__image"
+          class="header__logoicon__image"
         />
-        <h1 class="logoicon__title">TaskFlow</h1>
+        <h1 class="header__logoicon__title">TaskFlow</h1>
       </div>
-      <div class="nameproject sm-only">
+      <div class="nameproject desktop-only">
         <h2 class="nameproject__title">school project</h2>
         <div class="nameproject__edit">
           <img src="images/pencil.svg" alt="logo de um lápis" />
         </div>
       </div>
-      <div class="searchbar">
-        <img
-          src="images/magnifying-glass.svg"
-          alt="logo de uma lupa"
-          class="searchbar__image"
-        />
-        <input type="search" placeholder="Search" class="searchbar__input" />
+      <div class="header__searchbar">
+        <div class="header__searchbar__container">
+          <img
+            src="images/magnifying-glass.svg"
+            alt="logo de uma lupa"
+            class="header__searchbar__image"
+          />
+          <input
+            type="search"
+            placeholder="Search"
+            class="header__searchbar__input"
+          />
+        </div>
       </div>
-      <div class="usericon">
-        <div class="usericon__profile">
-            <img src="images/profile.svg" alt="perfil anônimo">
+      <div class="header__usericon">
+        <div class="header__usericon__profile">
+          <img src="images/profile.svg" alt="perfil anônimo" />
         </div>
       </div>
     </header>
+
+    <main class="main">
+      <section class="controls mobile-only">
+        <div class="controls__nameproject">
+          <h2 class="controls__nameproject__title">school project</h2>
+          <div class="controls__nameproject__edit">
+            <img src="images/pencil.svg" alt="logo de um lápis" />
+          </div>
+        </div>
+
+        <div class="controls__column">
+          <button
+            class="nav-button active"
+            data-column="todo"
+            ondragover="handleDragOver(event)"
+          >
+            To Do <span class="counter">3</span>
+          </button>
+          <button
+            class="nav-button"
+            data-column="doing"
+            ondragover="handleDragOver(event)"
+          >
+            In Progress <span class="counter">3</span>
+          </button>
+          <button
+            class="nav-button"
+            data-column="done"
+            ondragover="handleDragOver(event)"
+          >
+            Done <span class="counter">3</span>
+          </button>
+          <button class="nav-button--add">
+            <img src="images/plus.svg" alt="logo de um mais" />
+          </button>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
