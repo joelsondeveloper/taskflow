@@ -44,8 +44,12 @@ mainColumn.addEventListener("click", (e) => {
 
 document.addEventListener("dragstart", (event) => {
   event.target.classList.add("dragging");
-  columnBefore = user.board.columnActive;
   cardBefore = event.target.closest(".column__card");
+  if (isMobile.matches) {
+    columnBefore = user.board.columnActive;
+  } else {
+    columnBefore = cardBefore.closest(".column").dataset.id
+  }
 });
 
 document.addEventListener("dragend", (event) => {
@@ -53,36 +57,50 @@ document.addEventListener("dragend", (event) => {
 
   const draggedCard = event.target.closest(".column__card");
   const cardId = draggedCard.dataset.id;
-  if (isMobile.matches) {
-    let tags = Array.from(
-      draggedCard.querySelectorAll(".column__card__tags p")
-    );
-    tags = tags.map((tag) => {
-      return tag.innerText;
-    });
 
-    const newCard = new Card(
+  let tags = Array.from(
+    draggedCard.querySelectorAll(".column__card__tags p")
+  );
+  tags = tags.map((tag) => {
+    return tag.innerText;
+  });
+  const newCard = new Card(
       draggedCard.dataset.title,
       draggedCard.querySelector(".column__card__description").innerText,
       tags,
       cardId
     );
+
     let insertIndex = 0;
 
-    const formIndex = Number(cardBefore.dataset.index);
+    const forIndex = Number(cardBefore.dataset.index);
     
     if (applyAfter && applyAfter.dataset && applyAfter.dataset.index) {
       const toIndex = Number(applyAfter.dataset.index);
       insertIndex = toIndex
-      if (toIndex < formIndex) {
+      if (toIndex < forIndex) {
+        insertIndex++;
+      } else if (!isMobile.matches) {
         insertIndex++;
       }
     }
+  if (isMobile.matches) {
+    console.log(applyAfter)
+
+    
 
     user.removeCardFromColumn(columnBefore, cardBefore.dataset.id);
     user.addCardToColumn(user.board.columnActive, newCard, insertIndex);
     console.log(insertIndex);
     renderBoard();
+  } else {
+    console.log(cardBefore.dataset.index)
+
+    user.removeCardFromColumn(columnBefore, cardBefore.dataset.id);
+    user.addCardToColumn(event.target.closest(".column").dataset.id, newCard, insertIndex);
+    console.log(insertIndex);
+    renderBoard();
+
   }
 });
 

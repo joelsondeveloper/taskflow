@@ -14,6 +14,7 @@ function renderBoard() {
   } else {
     renderDesktop(user.board.columns);
   }
+  user.saveToLocalStorage();
 }
 
 function renderControlsMobile(board) {
@@ -52,7 +53,6 @@ function renderControlsMobile(board) {
 
 function renderColumnMobile(dataColumn) {
   const column = document.createElement("section");
-
 
   column.innerHTML = `
         <article class="column__card-add mobile-only">
@@ -96,7 +96,6 @@ function renderColumnMobile(dataColumn) {
     const columnCardTags = column.querySelectorAll(".column__card__tags");
 
     getAndAddTags(columnCardTags[index], dataColumn[index]);
-
   });
 
   column.classList.add("column");
@@ -173,20 +172,19 @@ function renderDesktop(dataColumns) {
     column.classList.add("column");
 
     column.addEventListener("dragover", (event) => {
-    const dragging = document.querySelector(".dragging");
-    const applyAfter = getNewPosition(column, event.clientY);
-    const columnCardAdd = column.querySelector(".column__card-add");
-    // console.log(columnCardAdd);
+      const dragging = document.querySelector(".dragging");
+      applyAfter = getNewPosition(column, event.clientY);
+      const columnCardAdd = column.querySelector(".column__card-add");
+      // console.log(columnCardAdd);
 
-    if (applyAfter) {
-      applyAfter.insertAdjacentElement("afterend", dragging);
-    } else {
-      column.firstElementChild.insertAdjacentElement("afterend", dragging);
-    }
-
-  });
-  // console.log(element.id);
-  column.setAttribute("data-id", element.id);
+      if (applyAfter) {
+        applyAfter.insertAdjacentElement("afterend", dragging);
+      } else {
+        column.firstElementChild.insertAdjacentElement("afterend", dragging);
+      }
+    });
+    // console.log(element.id);
+    column.setAttribute("data-id", element.id);
 
     mainColumn.appendChild(column);
   });
