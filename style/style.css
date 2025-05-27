@@ -161,6 +161,7 @@ main {
     align-items: center;
     gap: .5rem;
     margin-bottom: var(--padding-side);
+    cursor: pointer;
     
 }
 
@@ -342,6 +343,82 @@ main {
 }
 
 
+
+.modal__addCard, .modal__editCard {
+    position: fixed;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    background-color: var(--bg-color);
+    padding: .5rem;
+    border-radius: .5rem;
+    color: var(--text-color);
+    z-index: 1;
+}
+
+.modal__addCard__container, .modal__editCard__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding-bottom: var(--padding-side);
+}
+
+.modal__addCard__close, .modal__editCard__close {
+    cursor: pointer;
+
+    svg {
+        width: 1.5rem;
+    }
+}
+
+.modal__addCard__text, .modal__editCard__text {
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.modal__addCard__input input, .modal__editCard__input input, .modal__editCard__input select {
+    background-color: var(--bg-secondary-color);
+    border: none;
+    color: var(--text-color);
+    padding: .5rem 1.5rem .5rem .5rem;
+    margin-bottom: .5rem;
+    border-radius: .5rem;
+    width: 100%;
+}
+
+.modal__addCard__button, .modal__editCard__button {
+    background-color: var(--bg-color);
+    border-radius: .5rem;
+    padding: .5rem 0;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+
+    button {
+        cursor: pointer;
+        border: none;
+        padding: .4rem .8rem;
+        border-radius: .5rem;
+        background-color: var(--blue-color);
+        color: var(--text-color);
+        font-size: .875rem;
+        font-weight: 500;
+    }
+}
+
+.modal__editCard__button .modal__editCard__button__delete {
+    background-color: red;
+    margin-left: auto;
+}
+
+.modal-hide {
+    display: none;
+}
+
+.dragging {
+    opacity: .5;
+}
 
 /* desktop  */
 

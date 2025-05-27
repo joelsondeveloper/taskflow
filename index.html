@@ -341,8 +341,70 @@
       </nav>
     </footer>
 
+    <div class="modal__addCard modal-hide">
+      <div class="modal__addCard__container">
+        <p class="modal__addCard__text">Add card</p>
+        <div class="modal__addCard__close">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="size-5"
+          >
+            <path
+              d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="modal__addCard__input">
+        <input type="text" placeholder="Card title" id="cardAddTitle" />
+        <input type="text" placeholder="Description" id="cardAddDescription" />
+        <input type="text" placeholder="tags" id="cardAddTags" />
+      </div>
+      <div class="modal__addCard__button">
+        <button class="modal__addCard__button__cancel">Cancel</button>
+        <button class="modal__addCard__button__add">Add</button>
+      </div>
+    </div>
+
+    <div class="modal__editCard modal-hide">
+      <div class="modal__editCard__container">
+        <p class="modal__editCard__text">Edit card</p>
+        <div class="modal__editCard__close">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="size-5"
+          >
+            <path
+              d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="modal__editCard__input ">
+        <input type="text" placeholder="Card title" id="cardEditTitle" />
+        <input type="text" placeholder="Description" id="cardEditDescription" />
+        <input type="text" placeholder="tags" id="cardEditTags" />
+        <p id="cardEditDate"></p>
+        <select name="column" id="cardEditColumn">
+          <option value="toDo">to Do</option>
+        </select>
+      </div>
+      <div class="modal__editCard__button">
+        <button class="modal__editCard__button__cancel">Cancel</button>
+        <button class="modal__editCard__button__add">Add</button>
+        <button class="modal__editCard__button__delete">Delete</button>
+      </div>
+    </div>
+
     <script src="script/data.js"></script>
+    <script src="script/main.js"></script>
     <script src="script/dom.js"></script>
     <script src="script/events.js"></script>
+    <script src="script/modal.js"></script>
   </body>
 </html>

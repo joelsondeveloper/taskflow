@@ -1,6 +1,7 @@
 const mainColumn = document.querySelector(".main__column");
 const controls = document.querySelector(".controls");
 const isMobile = window.matchMedia("(max-width: 48rem)");
+let applyAfter;
 // console.log(user.board.columns[0].cards);
 
 renderBoard();
@@ -28,7 +29,6 @@ function renderControlsMobile(board) {
       <button
       class="nav-button"
       data-column="${element.id}"
-      ondragover="handleDragOver(event)"
     >
       <p>${element.title}</p>
       <span class="counter">${element.cards.length}</span>
@@ -53,6 +53,7 @@ function renderControlsMobile(board) {
 function renderColumnMobile(dataColumn) {
   const column = document.createElement("section");
 
+
   column.innerHTML = `
         <article class="column__card-add mobile-only">
             <img src="images/plus.svg" alt=" logo de um mais" />
@@ -64,11 +65,11 @@ function renderColumnMobile(dataColumn) {
             <article
             class="column__card"
             draggable="true"
-            data-id="card-1"
-            ondragstart="handleDragStart(event)"
-            ondragover="handleDragOver(event)"
-            ondrop="handleDropOnCard(event)"
-            data-id="card-1"
+            data-id="${element.id}"
+            data-title="${element.title}"
+            data-description="${element.description}"
+            data-date="${element.date}"
+            data-index="${index}"
           >
             <div class="column__card__tags">
             </div>
@@ -95,9 +96,23 @@ function renderColumnMobile(dataColumn) {
     const columnCardTags = column.querySelectorAll(".column__card__tags");
 
     getAndAddTags(columnCardTags[index], dataColumn[index]);
+
   });
 
   column.classList.add("column");
+
+  column.addEventListener("dragover", (event) => {
+    const dragging = document.querySelector(".dragging");
+    applyAfter = getNewPosition(column, event.clientY);
+    const columnCardAdd = column.querySelector(".column__card-add");
+    // console.log(columnCardAdd);
+
+    if (applyAfter) {
+      applyAfter.insertAdjacentElement("afterend", dragging);
+    } else {
+      columnCardAdd.insertAdjacentElement("afterend", dragging);
+    }
+  });
 
   mainColumn.appendChild(column);
 }
@@ -121,11 +136,12 @@ function renderDesktop(dataColumns) {
       <article
             class="column__card"
             draggable="true"
-            data-id="card-1"
-            ondragstart="handleDragStart(event)"
-            ondragover="handleDragOver(event)"
-            ondrop="handleDropOnCard(event)"
-            data-id="card-1"
+            data-id="${card.id}"
+            data-title="${card.title}"
+            data-description="${card.description}"
+            data-date="${card.date}"
+            data-index="${index}"
+
           >
             <div class="column__card__tags">
             </div>
@@ -156,6 +172,22 @@ function renderDesktop(dataColumns) {
 
     column.classList.add("column");
 
+    column.addEventListener("dragover", (event) => {
+    const dragging = document.querySelector(".dragging");
+    const applyAfter = getNewPosition(column, event.clientY);
+    const columnCardAdd = column.querySelector(".column__card-add");
+    // console.log(columnCardAdd);
+
+    if (applyAfter) {
+      applyAfter.insertAdjacentElement("afterend", dragging);
+    } else {
+      column.firstElementChild.insertAdjacentElement("afterend", dragging);
+    }
+
+  });
+  // console.log(element.id);
+  column.setAttribute("data-id", element.id);
+
     mainColumn.appendChild(column);
   });
 }
@@ -169,7 +201,7 @@ function formatDate(date) {
 }
 
 function getAndAddTags(columnCardTags, dataColumnCards) {
-  dataColumnCards.tags.forEach((tag) => {
+  dataColumnCards.tags?.forEach((tag) => {
     const tagElement = document.createElement("p");
     tagElement.classList.add("column__card__tags__text");
     tagElement.textContent = tag;
