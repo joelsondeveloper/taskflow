@@ -54,13 +54,10 @@ document.addEventListener("dragend", (event) => {
   const draggedCard = event.target.closest(".column__card");
   const cardId = draggedCard.dataset.id;
   if (isMobile.matches) {
-    
-
     let tags = Array.from(
       draggedCard.querySelectorAll(".column__card__tags p")
-
     );
-    tags =tags.map((tag) => {
+    tags = tags.map((tag) => {
       return tag.innerText;
     });
 
@@ -70,13 +67,24 @@ document.addEventListener("dragend", (event) => {
       tags,
       cardId
     );
+    let insertIndex = 0;
+
+    const formIndex = Number(cardBefore.dataset.index);
+    
+    if (applyAfter && applyAfter.dataset && applyAfter.dataset.index) {
+      const toIndex = Number(applyAfter.dataset.index);
+      insertIndex = toIndex
+      if (toIndex < formIndex) {
+        insertIndex++;
+      }
+    }
 
     user.removeCardFromColumn(columnBefore, cardBefore.dataset.id);
-    user.addCardToColumn(user.board.columnActive, newCard, applyAfter.dataset.index);
-    console.log(applyAfter);
-    // renderBoard();
+    user.addCardToColumn(user.board.columnActive, newCard, insertIndex);
+    console.log(insertIndex);
+    renderBoard();
   }
-});.
+});
 
 document.addEventListener("dragover", (event) => {
   const scrollSpeed = 5;
