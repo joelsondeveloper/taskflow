@@ -1,6 +1,7 @@
 const mainColumn = document.querySelector(".main__column");
 const controls = document.querySelector(".controls");
 const isMobile = window.matchMedia("(max-width: 48rem)");
+let columnCardAdd;
 let applyAfter;
 // console.log(user.board.columns[0].cards);
 
@@ -49,6 +50,12 @@ function renderControlsMobile(board) {
       <img src="images/plus.svg" alt="logo de um mais" />
     </button>
     `;
+
+  const navButtonAdd = document.querySelector(".nav-button--add");
+
+  navButtonAdd.addEventListener("click", () => {
+    showModal(modalAddColumn);
+  });
 }
 
 function renderColumnMobile(dataColumn) {
@@ -114,6 +121,13 @@ function renderColumnMobile(dataColumn) {
   });
 
   mainColumn.appendChild(column);
+
+  columnCardAdd = column.querySelector(".column__card-add");
+
+  columnCardAdd.addEventListener("click", () => {
+    showModal(modalAddCard);
+    event.stopPropagation();
+  });
 }
 
 function renderDesktop(dataColumns) {
@@ -167,6 +181,13 @@ function renderDesktop(dataColumns) {
       const columnCardTags = column.querySelectorAll(".column__card__tags");
 
       getAndAddTags(columnCardTags[index], card);
+    });
+
+    const columnCardAdd = column.querySelector(".column__card-add");
+
+    columnCardAdd.addEventListener("click", () => {
+      showModal(modalAddCard, element);
+      // event.stopPropagation();
     });
 
     column.classList.add("column");

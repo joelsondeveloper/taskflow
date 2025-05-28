@@ -211,6 +211,14 @@ class User {
     }
   }
 
+  addColumn(name) {
+    this.board.columns.push({
+      id: `column-${Date.now()}`,
+      title: name,
+      cards: [],
+    });
+  }
+
   saveToLocalStorage() {
     localStorage.setItem("board", JSON.stringify(this.board));
   }

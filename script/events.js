@@ -3,7 +3,8 @@ const navButtons = Array.from(
   controlsColumn.getElementsByClassName("nav-button")
 );
 const nameProjects = Array.from(document.getElementsByClassName("nameproject"));
-const columnCardAdd = document.querySelector(".column__card-add");
+
+
 const columns = Array.from(document.getElementsByClassName("column"));
 let columnBefore;
 let cardBefore;
@@ -29,10 +30,7 @@ controlsColumn.addEventListener("click", (event) => {
   }
 });
 
-columnCardAdd.addEventListener("click", () => {
-  showModal(modalAddCard);
-  event.stopPropagation();
-});
+
 
 mainColumn.addEventListener("click", (e) => {
   const card = e.target.closest(".column__card");
@@ -108,6 +106,8 @@ document.addEventListener("dragover", (event) => {
   const scrollSpeed = 5;
   const threshold = 100;
   const Y = event.clientY;
+  const X = event.clientX;
+  const mainColumnBox = mainColumn.getBoundingClientRect();
 
   if (window.innerHeight - Y < threshold) {
     window.scrollBy(0, scrollSpeed);
@@ -115,6 +115,14 @@ document.addEventListener("dragover", (event) => {
 
   if (Y < threshold) {
     window.scrollBy(0, -scrollSpeed);
+  }
+
+  if (mainColumnBox.width - X < threshold) {
+    mainColumn.scrollLeft += scrollSpeed;
+  }
+
+  if (X < threshold) {
+    mainColumn.scrollLeft -= scrollSpeed;
   }
 });
 

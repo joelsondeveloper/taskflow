@@ -1,5 +1,6 @@
 const modalAddCard = document.querySelector(".modal__addCard");
 const modalEditCard = document.querySelector(".modal__editCard");
+const modalAddColumn = document.querySelector(".modal__addColumn");
 
 const buttonAddCancel = document.querySelector(
   ".modal__addCard__button__cancel"
@@ -14,14 +15,23 @@ const buttonEditAdd = document.querySelector(".modal__editCard__button__add");
 const buttonEditClose = document.querySelector(".modal__editCard__close");
 const buttonEditDelete = document.querySelector(".modal__editCard__button__delete");
 
+const buttonAddColumnCancel = document.querySelector(
+  ".modal__addColumn__button__cancel"
+);
+const buttonAddColumnAdd = document.querySelector(
+  ".modal__addColumn__button__add"
+);
+const buttonAddColumnClose = document.querySelector(".modal__addColumn__close");
+
 buttonAddClose.addEventListener("click", () => {
   hideModal(modalAddCard);
 });
 buttonAddCancel.addEventListener("click", () => {
   hideModal(modalAddCard);
 });
-buttonAddAdd.addEventListener("click", () => {
-  addCard();
+buttonAddAdd.addEventListener("click", (event) => {
+  console.log(event.target.closest(".modais").dataset.id);
+  addCard(event.target.closest(".modais").dataset.id);
 });
 
 buttonEditClose.addEventListener("click", () => {
@@ -37,6 +47,16 @@ buttonEditDelete.addEventListener("click", () => {
   deleteCard();
 });
 
+buttonAddColumnClose.addEventListener("click", () => {
+  hideModal(modalAddColumn);
+});
+buttonAddColumnCancel.addEventListener("click", () => {
+  hideModal(modalAddColumn);
+});
+buttonAddColumnAdd.addEventListener("click", () => {
+  addColumn();
+});
+
 function showModal(modal, card) {
   modal.classList.remove("modal-hide");
   if (card) {
@@ -48,7 +68,7 @@ function hideModal(modal) {
   modal.classList.add("modal-hide");
 }
 
-function addCard() {
+function addCard(column) {
   const cardTitle = document.getElementById("cardAddTitle").value;
   const cardDescription = document.getElementById("cardAddDescription").value;
   const cardTags = document
@@ -64,7 +84,7 @@ function addCard() {
 
   const card = new Card(cardTitle, cardDescription, cardTags);
   console.log(card);
-  user.addCardToColumn(user.board.columnActive, card);
+  user.addCardToColumn(column ||user.board.columnActive, card);
 
   hideModal(modalAddCard);
   renderBoard();
@@ -108,4 +128,16 @@ function deleteCard() {
   user.removeCardFromColumn(user.board.columnActive, dataId);
   hideModal(modalEditCard);
   renderBoard();
+}
+
+function addColumn() {
+  const columnName = document.getElementById("columnAddTitle").value.trim();
+  if (!columnName) {
+    alert("Preencha todos os campos");
+    return;
+  }
+  user.addColumn(columnName);
+  hideModal(modalAddColumn);
+  renderBoard();
+  document.getElementById("columnAddTitle").value = "";
 }

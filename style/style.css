@@ -344,7 +344,7 @@ main {
 
 
 
-.modal__addCard, .modal__editCard {
+.modais {
     position: fixed;
     bottom: 50%;
     right: 50%;
@@ -356,7 +356,7 @@ main {
     z-index: 1;
 }
 
-.modal__addCard__container, .modal__editCard__container {
+.modais__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -364,7 +364,7 @@ main {
     padding-bottom: var(--padding-side);
 }
 
-.modal__addCard__close, .modal__editCard__close {
+.modais__close {
     cursor: pointer;
 
     svg {
@@ -372,12 +372,12 @@ main {
     }
 }
 
-.modal__addCard__text, .modal__editCard__text {
+.modais__text {
     font-size: .875rem;
     font-weight: 500;
 }
 
-.modal__addCard__input input, .modal__editCard__input input, .modal__editCard__input select {
+.modais__input input, .modais__input select {
     background-color: var(--bg-secondary-color);
     border: none;
     color: var(--text-color);
@@ -387,7 +387,7 @@ main {
     width: 100%;
 }
 
-.modal__addCard__button, .modal__editCard__button {
+.modais__button {
     background-color: var(--bg-color);
     border-radius: .5rem;
     padding: .5rem 0;
@@ -407,7 +407,7 @@ main {
     }
 }
 
-.modal__editCard__button .modal__editCard__button__delete {
+.modais__button .modal__editCard__button__delete {
     background-color: red;
     margin-left: auto;
 }
@@ -448,7 +448,7 @@ main {
     }
 
     .column {
-        width: 18.75rem;
+        min-width: 18.75rem;
         padding: calc(var(--padding-side) / 2);
     }
 
