@@ -10,10 +10,10 @@ renderBoard();
 function renderBoard() {
   mainColumn.innerHTML = "";
   if (isMobile.matches) {
-    renderControlsMobile(user.board);
-    renderColumnMobile(findColumn(user.board.columnActive));
+    renderControlsMobile(user.boardActive);
+    renderColumnMobile(findColumn(user.boardActive.columnActive));
   } else {
-    renderDesktop(user.board.columns);
+    renderDesktop(user.boardActive.columns);
   }
   user.saveToLocalStorage();
 }
@@ -24,7 +24,7 @@ function renderControlsMobile(board) {
 
   controlsColumn.innerHTML = "";
 
-  nameProjectTitle[1].textContent = board.name;
+  nameProjectTitle[1].textContent = user.boardActive.name;
 
   board.columns.forEach((element) => {
     controlsColumn.innerHTML += `
@@ -229,6 +229,6 @@ function getAndAddTags(columnCardTags, dataColumnCards) {
 }
 
 function findColumn(id) {
-  const column = user.board.columns.find((element) => element.id === id);
+  const column = user.boardActive.columns.find((element) => element.id === id);
   return column.cards;
 }

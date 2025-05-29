@@ -183,27 +183,29 @@ class User {
     this.name = name;
     this.email = null;
     this.theme = "dark";
+    this.avatar = "images/profile.svg";
 
-    const saveBoard = JSON.parse(localStorage.getItem("board")) || defaultBoardData;
-    this.board = saveBoard;
+    const saveBoard = JSON.parse(localStorage.getItem("boards")) || [defaultBoardData];
+    this.boards = saveBoard;
+    this.boardActive = this.boards[0];
     
   }
 
   addCardToColumn(columnId, card, index) {
     if (index === undefined) index = 0;
-    const column = this.board.columns.find((column) => column.id === columnId);
+    const column = this.boardActive.columns.find((column) => column.id === columnId);
     if (column) column.cards.splice(index, 0, card);
   }
 
   removeCardFromColumn(columnId, cardId) {
-    const column = this.board.columns.find((column) => column.id === columnId);
+    const column = this.boardActive.columns.find((column) => column.id === columnId);
     if (column)
       column.cards = column.cards.filter((card) => card.id !== cardId);
   }
 
   editCardToColumn(columnId, card) {
     // console.log(card);
-    const column = this.board.columns.find((column) => column.id === columnId);
+    const column = this.boardActive.columns.find((column) => column.id === columnId);
     if (column) {
       const cardIndex = column.cards.findIndex((c) => c.id === card.id);
       if (cardIndex !== -1) column.cards[cardIndex] = card;
@@ -212,20 +214,25 @@ class User {
   }
 
   addColumn(name) {
-    this.board.columns.push({
+    this.boardActive.columns.push({
       id: `column-${Date.now()}`,
       title: name,
       cards: [],
     });
   }
 
+  editProjectName(name) {
+    this.boardActive.name = name;
+  }
+
   saveToLocalStorage() {
-    localStorage.setItem("board", JSON.stringify(this.board));
+    localStorage.setItem("boards", JSON.stringify(this.boards));
   }
 
   loadFromLocalStorage() {
-    const board = JSON.parse(localStorage.getItem("board"));
-    if (board) this.board = board;
+    const boards = JSON.parse(localStorage.getItem("boards"));
+    console.log(boards);
+    if (boards) this.boards = boards;
   }
 }
 
@@ -236,7 +243,7 @@ class Card {
     this.description = description;
     this.tags = tags;
     this.date = date || new Date().toISOString();
-    this.profile = "images/profile.svg";
+    this.profile = user.avatar;
   }
 
   getFormatDate() {

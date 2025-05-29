@@ -4,7 +4,6 @@ const navButtons = Array.from(
 );
 const nameProjects = Array.from(document.getElementsByClassName("nameproject"));
 
-
 const columns = Array.from(document.getElementsByClassName("column"));
 let columnBefore;
 let cardBefore;
@@ -15,22 +14,24 @@ isMobile.addEventListener("change", () => {
   renderBoard();
 });
 
-controlsColumn.addEventListener("click", (event) => {
-  if (event.target.classList.contains("nav-button")) {
-    navButtons.forEach((element, index) => {
-      element.classList.remove("active");
+function addListenerControlsColumns() {
+  controlsColumn.addEventListener("click", (event) => {
+    if (event.target.classList.contains("nav-button")) {
+      navButtons.forEach((element, index) => {
+        element.classList.remove("active");
 
-      if (event.target.dataset.column === navButtons[index].dataset.column) {
-        event.target.classList.add("active");
-        user.board.columnActive = event.target.dataset.column;
-        console.log(user.board.columnActive);
-        renderBoard();
-      }
-    });
-  }
-});
+        if (event.target.dataset.column === navButtons[index].dataset.column) {
+          event.target.classList.add("active");
+          user.boardActive.columnActive = event.target.dataset.column;
+          console.log(user.boardActive.columnActive);
+          renderBoard();
+        }
+      });
+    }
+  });
+}
 
-
+addListenerControlsColumns();
 
 mainColumn.addEventListener("click", (e) => {
   const card = e.target.closest(".column__card");
@@ -44,9 +45,9 @@ document.addEventListener("dragstart", (event) => {
   event.target.classList.add("dragging");
   cardBefore = event.target.closest(".column__card");
   if (isMobile.matches) {
-    columnBefore = user.board.columnActive;
+    columnBefore = user.boardActive.columnActive;
   } else {
-    columnBefore = cardBefore.closest(".column").dataset.id
+    columnBefore = cardBefore.closest(".column").dataset.id;
   }
 });
 
@@ -56,49 +57,48 @@ document.addEventListener("dragend", (event) => {
   const draggedCard = event.target.closest(".column__card");
   const cardId = draggedCard.dataset.id;
 
-  let tags = Array.from(
-    draggedCard.querySelectorAll(".column__card__tags p")
-  );
+  let tags = Array.from(draggedCard.querySelectorAll(".column__card__tags p"));
   tags = tags.map((tag) => {
     return tag.innerText;
   });
   const newCard = new Card(
-      draggedCard.dataset.title,
-      draggedCard.querySelector(".column__card__description").innerText,
-      tags,
-      cardId
-    );
+    draggedCard.dataset.title,
+    draggedCard.querySelector(".column__card__description").innerText,
+    tags,
+    cardId
+  );
 
-    let insertIndex = 0;
+  let insertIndex = 0;
 
-    const forIndex = Number(cardBefore.dataset.index);
-    
-    if (applyAfter && applyAfter.dataset && applyAfter.dataset.index) {
-      const toIndex = Number(applyAfter.dataset.index);
-      insertIndex = toIndex
-      if (toIndex < forIndex) {
-        insertIndex++;
-      } else if (!isMobile.matches) {
-        insertIndex++;
-      }
+  const forIndex = Number(cardBefore.dataset.index);
+
+  if (applyAfter && applyAfter.dataset && applyAfter.dataset.index) {
+    const toIndex = Number(applyAfter.dataset.index);
+    insertIndex = toIndex;
+    if (toIndex < forIndex) {
+      insertIndex++;
+    } else if (!isMobile.matches) {
+      insertIndex++;
     }
+  }
   if (isMobile.matches) {
-    console.log(applyAfter)
-
-    
+    console.log(applyAfter);
 
     user.removeCardFromColumn(columnBefore, cardBefore.dataset.id);
-    user.addCardToColumn(user.board.columnActive, newCard, insertIndex);
+    user.addCardToColumn(user.boardActive.columnActive, newCard, insertIndex);
     console.log(insertIndex);
     renderBoard();
   } else {
-    console.log(cardBefore.dataset.index)
+    console.log(cardBefore.dataset.index);
 
     user.removeCardFromColumn(columnBefore, cardBefore.dataset.id);
-    user.addCardToColumn(event.target.closest(".column").dataset.id, newCard, insertIndex);
+    user.addCardToColumn(
+      event.target.closest(".column").dataset.id,
+      newCard,
+      insertIndex
+    );
     console.log(insertIndex);
     renderBoard();
-
   }
 });
 
@@ -142,3 +142,9 @@ function getNewPosition(column, mouseY) {
 
   return result;
 }
+
+nameProjects.forEach((project) => {
+  project.addEventListener("click", () => {
+    showModal(modalEditProject);
+  });
+}); 

@@ -162,7 +162,7 @@ main {
     gap: .5rem;
     margin-bottom: var(--padding-side);
     cursor: pointer;
-    
+    width: fit-content;
 }
 
 .nameproject__title {
