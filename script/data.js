@@ -185,32 +185,41 @@ class User {
     this.theme = "dark";
     this.avatar = "images/profile.svg";
 
-    const saveBoard = JSON.parse(localStorage.getItem("boards")) || [defaultBoardData];
+    const saveBoard = JSON.parse(localStorage.getItem("boards")) || [
+      defaultBoardData,
+    ];
     this.boards = saveBoard;
     this.boardActive = this.boards[0];
-    
   }
 
   addCardToColumn(columnId, card, index) {
     if (index === undefined) index = 0;
-    const column = this.boardActive.columns.find((column) => column.id === columnId);
+    const column = this.boardActive.columns.find(
+      (column) => column.id === columnId
+    );
     if (column) column.cards.splice(index, 0, card);
   }
 
   removeCardFromColumn(columnId, cardId) {
-    const column = this.boardActive.columns.find((column) => column.id === columnId);
+    const column = this.boardActive.columns.find(
+      (column) => column.id === columnId
+    );
     if (column)
       column.cards = column.cards.filter((card) => card.id !== cardId);
   }
 
   editCardToColumn(columnId, card) {
     // console.log(card);
-    const column = this.boardActive.columns.find((column) => column.id === columnId);
-    if (column) {
-      const cardIndex = column.cards.findIndex((c) => c.id === card.id);
-      if (cardIndex !== -1) column.cards[cardIndex] = card;
-      console.log(column.cards[cardIndex]);
-    }
+    const column = this.boardActive.columns.find(
+      (column) => column.id === columnId
+    );
+    let cardIndex = column.cards.findIndex((card) => card.id === card.id);
+    if (cardIndex === -1) {
+      cardIndex = 0
+    };
+
+    column.cards[cardIndex] = card;
+    console.log(cardIndex);
   }
 
   addColumn(name) {
@@ -223,6 +232,20 @@ class User {
 
   editProjectName(name) {
     this.boardActive.name = name;
+  }
+
+  editColumnName(columnId, name) {
+    const column = this.boardActive.columns.find(
+      (column) => column.id === columnId
+    );
+    if (column) column.title = name;
+    console.log(column);
+  }
+
+  removeColumn(columnId) {
+    this.boardActive.columns = this.boardActive.columns.filter(
+      (column) => column.id !== columnId
+    );
   }
 
   saveToLocalStorage() {

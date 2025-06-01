@@ -1,7 +1,5 @@
 const controlsColumn = controls.querySelector(".controls__column");
-const navButtons = Array.from(
-  controlsColumn.getElementsByClassName("nav-button")
-);
+
 const nameProjects = Array.from(document.getElementsByClassName("nameproject"));
 
 const columns = Array.from(document.getElementsByClassName("column"));
@@ -15,6 +13,9 @@ isMobile.addEventListener("change", () => {
 });
 
 function addListenerControlsColumns() {
+  const navButtons = Array.from(
+    controlsColumn.getElementsByClassName("nav-button")
+  );
   controlsColumn.addEventListener("click", (event) => {
     if (event.target.classList.contains("nav-button")) {
       navButtons.forEach((element, index) => {
@@ -29,6 +30,12 @@ function addListenerControlsColumns() {
       });
     }
   });
+  document.addEventListener("contextmenu", (event) => {
+    if (event.target.classList.contains("nav-button")) {
+      event.preventDefault();
+      showModal(modalEditColumn, null, event.target.dataset.column);
+    }
+  });
 }
 
 addListenerControlsColumns();
@@ -36,8 +43,12 @@ addListenerControlsColumns();
 mainColumn.addEventListener("click", (e) => {
   const card = e.target.closest(".column__card");
   if (card) {
-    console.log(card.dataset.id);
-    showModal(modalEditCard, card.dataset.id);
+    // console.log(card.closest(".column").dataset.id || user.boardActive.columnActive);
+    showModal(
+      modalEditCard,
+      card.dataset.id,
+      card.closest(".column").dataset.id || user.boardActive.columnActive
+    );
   }
 });
 
@@ -147,4 +158,4 @@ nameProjects.forEach((project) => {
   project.addEventListener("click", () => {
     showModal(modalEditProject);
   });
-}); 
+});

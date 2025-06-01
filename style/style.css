@@ -407,7 +407,7 @@ main {
     }
 }
 
-.modais__button .modal__editCard__button__delete {
+.modais__button .modal__delete {
     background-color: red;
     margin-left: auto;
 }

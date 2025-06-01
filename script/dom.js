@@ -1,6 +1,7 @@
 const mainColumn = document.querySelector(".main__column");
 const controls = document.querySelector(".controls");
 const isMobile = window.matchMedia("(max-width: 48rem)");
+const cardEditColumn = document.querySelector("#cardEditColumn");
 let columnCardAdd;
 let applyAfter;
 // console.log(user.board.columns[0].cards);
@@ -9,12 +10,23 @@ renderBoard();
 
 function renderBoard() {
   mainColumn.innerHTML = "";
+  if (user.boardActive.columns.length === 0) {
+    user.boardActive.columnActive = "";
+    return;
+  }
   if (isMobile.matches) {
     renderControlsMobile(user.boardActive);
     renderColumnMobile(findColumn(user.boardActive.columnActive));
   } else {
     renderDesktop(user.boardActive.columns);
   }
+
+  cardEditColumn.innerHTML = "";
+
+  user.boardActive.columns.forEach((element) => {
+    cardEditColumn.innerHTML += `<option value="${element.id}">${element.title}</option>`;
+  });
+
   user.saveToLocalStorage();
 }
 
@@ -186,7 +198,7 @@ function renderDesktop(dataColumns) {
     const columnCardAdd = column.querySelector(".column__card-add");
 
     columnCardAdd.addEventListener("click", () => {
-      showModal(modalAddCard, element);
+      showModal(modalAddCard, element.id);
       // event.stopPropagation();
     });
 
@@ -230,5 +242,6 @@ function getAndAddTags(columnCardTags, dataColumnCards) {
 
 function findColumn(id) {
   const column = user.boardActive.columns.find((element) => element.id === id);
+  if (!column) return null;
   return column.cards;
 }

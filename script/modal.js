@@ -2,31 +2,25 @@ const modalAddCard = document.querySelector(".modal__addCard");
 const modalEditCard = document.querySelector(".modal__editCard");
 const modalAddColumn = document.querySelector(".modal__addColumn");
 const modalEditProject = document.querySelector(".modal__editProject");
+const modalEditColumn = document.querySelector(".modal__editColumn");
 
-const buttonAddCancel = document.querySelector(
-  ".modal__addCard__button__cancel"
-);
+
 const buttonAddAdd = document.querySelector(".modal__addCard__button__add");
 const buttonAddClose = document.querySelector(".modal__addCard__close");
 
-const buttonEditCancel = document.querySelector(
-  ".modal__editCard__button__cancel"
-);
+
 const buttonEditAdd = document.querySelector(".modal__editCard__button__add");
 const buttonEditClose = document.querySelector(".modal__editCard__close");
-const buttonEditDelete = document.querySelector(".modal__editCard__button__delete");
-
-const buttonAddColumnCancel = document.querySelector(
-  ".modal__addColumn__button__cancel"
+const buttonEditDelete = document.querySelector(
+  ".modal__editCard__button__delete"
 );
+
 const buttonAddColumnAdd = document.querySelector(
   ".modal__addColumn__button__add"
 );
 const buttonAddColumnClose = document.querySelector(".modal__addColumn__close");
 
-const buttonEditProjectCancel = document.querySelector(
-  ".modal__editProject__button__cancel"
-);
+
 const buttonEditProjectAdd = document.querySelector(
   ".modal__editProject__button__add"
 );
@@ -34,10 +28,17 @@ const buttonEditProjectClose = document.querySelector(
   ".modal__editProject__close"
 );
 
+const buttonEditColumnAdd = document.querySelector(
+  ".modal__editColumn__button__add"
+);
+const buttonEditColumnClose = document.querySelector(
+  ".modal__editColumn__close"
+);
+const buttonEditColumnDelete = document.querySelector(
+  ".modal__editColumn__button__delete"
+);
+
 buttonAddClose.addEventListener("click", () => {
-  hideModal(modalAddCard);
-});
-buttonAddCancel.addEventListener("click", () => {
   hideModal(modalAddCard);
 });
 buttonAddAdd.addEventListener("click", (event) => {
@@ -48,20 +49,14 @@ buttonAddAdd.addEventListener("click", (event) => {
 buttonEditClose.addEventListener("click", () => {
   hideModal(modalEditCard);
 });
-buttonEditCancel.addEventListener("click", () => {
-  hideModal(modalEditCard);
-});
 buttonEditAdd.addEventListener("click", () => {
   editCard();
 });
-buttonEditDelete.addEventListener("click", () => {
-  deleteCard();
+buttonEditDelete.addEventListener("click", (event) => {
+  deleteCard(event.target.closest(".modais").dataset.id);
 });
 
 buttonAddColumnClose.addEventListener("click", () => {
-  hideModal(modalAddColumn);
-});
-buttonAddColumnCancel.addEventListener("click", () => {
   hideModal(modalAddColumn);
 });
 buttonAddColumnAdd.addEventListener("click", () => {
@@ -71,17 +66,29 @@ buttonAddColumnAdd.addEventListener("click", () => {
 buttonEditProjectClose.addEventListener("click", () => {
   hideModal(modalEditProject);
 });
-buttonEditProjectCancel.addEventListener("click", () => {
-  hideModal(modalEditProject);
-});
 buttonEditProjectAdd.addEventListener("click", () => {
   editProject();
 });
 
-function showModal(modal, card) {
+buttonEditColumnClose.addEventListener("click", () => {
+  hideModal(modalEditColumn);
+});
+buttonEditColumnAdd.addEventListener("click", () => {
+  editColumn();
+});
+buttonEditColumnDelete.addEventListener("click", () => {
+  removeColumn(modalEditColumn.getAttribute("data-id"));
+  hideModal(modalEditColumn);
+});
+
+
+function showModal(modal, card, column) {
   modal.classList.remove("modal-hide");
   if (card) {
-    modal.setAttribute("data-id", card);
+    modal.setAttribute("data-id", card || user.boardActive.columnActive);
+  }
+  if (column) {
+    modal.setAttribute("data-column", column || user.boardActive.columnActive);
   }
 }
 
@@ -105,7 +112,7 @@ function addCard(column) {
 
   const card = new Card(cardTitle, cardDescription, cardTags);
   console.log(card);
-  user.addCardToColumn(column ||user.boardActive.columnActive, card);
+  user.addCardToColumn(column || user.boardActive.columnActive, card);
 
   hideModal(modalAddCard);
   renderBoard();
@@ -123,18 +130,20 @@ function editCard() {
     .value.split(",")
     .map((tag) => tag.trim().toLowerCase())
     .filter((tag) => tag !== "");
-  const dataId = modalEditCard.getAttribute("data-id")
+  const editColumn = cardEditColumn.value;
+  console.log(editColumn);
+  const dataId = modalEditCard.getAttribute("data-id");
 
-  modalEditCard.setAttribute("data-id", user.boardActive.columnActive);
-
-  if (!cardTitle || !cardDescription || !cardTags) {
+  if ((!cardTitle || !cardDescription || !cardTags) && !editColumn) {
     alert("Preencha todos os campos");
     return;
   }
 
   const card = new Card(cardTitle, cardDescription, cardTags, dataId);
-  console.log(modalEditCard.dataset.id);
-  user.editCardToColumn(user.boardActive.columnActive, card);
+  console.log(modalEditCard.dataset.column);
+  user.removeCardFromColumn(modalEditCard.dataset.column, dataId);
+  // modalEditCard.setAttribute("data-id", user.boardActive.columnActive);
+  user.addCardToColumn(editColumn || user.boardActive.columnActive, card);
 
   hideModal(modalEditCard);
   renderBoard();
@@ -144,9 +153,11 @@ function editCard() {
   document.getElementById("cardEditTags").value = "";
 }
 
-function deleteCard() {
-  const dataId = modalEditCard.getAttribute("data-id")
-  user.removeCardFromColumn(user.boardActive.columnActive, dataId);
+function deleteCard(column) {
+  // console.log(column);
+  const dataId = modalEditCard.getAttribute("data-id");
+  const columnId = modalEditCard.getAttribute("data-column");
+  user.removeCardFromColumn(columnId || user.boardActive.columnActive, dataId);
   hideModal(modalEditCard);
   renderBoard();
 }
@@ -161,7 +172,7 @@ function addColumn() {
   hideModal(modalAddColumn);
   renderBoard();
   document.getElementById("columnAddTitle").value = "";
-  addListenerControlsColumns()
+  addListenerControlsColumns();
 }
 
 function editProject() {
@@ -174,4 +185,24 @@ function editProject() {
   hideModal(modalEditProject);
   renderBoard();
   document.getElementById("projectEditTitle").value = "";
+}
+
+function editColumn() {
+  const columnName = document.getElementById("columnEditTitle").value.trim();
+  const columnId = modalEditColumn.getAttribute("data-column");
+  if (!columnName) {
+    alert("Preencha todos os campos");
+    return;
+  }
+  user.editColumnName(columnId, columnName);
+  hideModal(modalEditColumn);
+  renderBoard();
+  document.getElementById("columnEditTitle").value = "";
+}
+
+function removeColumn(column) {
+  const columnId = modalEditColumn.getAttribute("data-column");
+  user.removeColumn(columnId);
+  hideModal(modalEditColumn);
+  renderBoard();
 }
