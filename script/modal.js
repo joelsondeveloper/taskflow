@@ -82,7 +82,8 @@ buttonEditColumnDelete.addEventListener("click", () => {
 });
 
 
-function showModal(modal, card, column) {
+function showModal(modal, cardElement, column, card) {
+  const firstInput = modal.querySelector("input");
   modal.classList.remove("modal-hide");
   if (card) {
     modal.setAttribute("data-id", card || user.boardActive.columnActive);
@@ -90,6 +91,17 @@ function showModal(modal, card, column) {
   if (column) {
     modal.setAttribute("data-column", column || user.boardActive.columnActive);
   }
+  if (modal === modalEditCard) {
+    document.getElementById("cardEditTitle").value = cardElement.dataset.title;
+    document.getElementById("cardEditDescription").value = cardElement.dataset.description;
+    document.getElementById("cardEditTags").value = cardElement.dataset.tags;
+    cardEditColumn.value = cardElement.closest(".column").dataset.id;
+  } else if (modal === modalEditColumn) {
+    document.getElementById("columnEditTitle").value = column;
+  } else if (modal === modalEditProject) {
+    document.getElementById("projectEditTitle").value = user.boardActive.name;
+  }
+  firstInput.focus();
 }
 
 function hideModal(modal) {
@@ -131,7 +143,6 @@ function editCard() {
     .map((tag) => tag.trim().toLowerCase())
     .filter((tag) => tag !== "");
   const editColumn = cardEditColumn.value;
-  console.log(editColumn);
   const dataId = modalEditCard.getAttribute("data-id");
 
   if ((!cardTitle || !cardDescription || !cardTags) && !editColumn) {
@@ -140,7 +151,6 @@ function editCard() {
   }
 
   const card = new Card(cardTitle, cardDescription, cardTags, dataId);
-  console.log(modalEditCard.dataset.column);
   user.removeCardFromColumn(modalEditCard.dataset.column, dataId);
   // modalEditCard.setAttribute("data-id", user.boardActive.columnActive);
   user.addCardToColumn(editColumn || user.boardActive.columnActive, card);
@@ -170,8 +180,13 @@ function addColumn() {
   }
   user.addColumn(columnName);
   hideModal(modalAddColumn);
-  renderBoard();
   document.getElementById("columnAddTitle").value = "";
+  
+  if (user.boardActive.columns.length === 1) {
+    console.log(user.boardActive.columns);
+    user.boardActive.columnActive = user.boardActive.columns[0].id;
+  }
+  renderBoard();
   addListenerControlsColumns();
 }
 
@@ -204,5 +219,9 @@ function removeColumn(column) {
   const columnId = modalEditColumn.getAttribute("data-column");
   user.removeColumn(columnId);
   hideModal(modalEditColumn);
+  
+  if (user.boardActive.columnActive === columnId) {
+    user.boardActive.columnActive = user.boardActive.columns[0].id;
+  }
   renderBoard();
 }

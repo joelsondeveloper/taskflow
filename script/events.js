@@ -46,8 +46,9 @@ mainColumn.addEventListener("click", (e) => {
     // console.log(card.closest(".column").dataset.id || user.boardActive.columnActive);
     showModal(
       modalEditCard,
-      card.dataset.id,
-      card.closest(".column").dataset.id || user.boardActive.columnActive
+      card,
+      card.closest(".column").dataset.id || user.boardActive.columnActive,
+      card.dataset.id
     );
   }
 });
@@ -135,6 +136,27 @@ document.addEventListener("dragover", (event) => {
   if (X < threshold) {
     mainColumn.scrollLeft -= scrollSpeed;
   }
+});
+
+document.addEventListener("keydown", (event) => {
+  const modalOpen = document.querySelector(".modais:not(.modal-hide)");
+  if (!modalOpen) return;
+  if (event.key === "Escape") {
+    hideModal(modalOpen);
+  }
+  if (event.key === "Enter") {
+      if (modalOpen === modalAddCard) {
+        addCard();
+      } else if (modalOpen === modalEditCard) {
+        editCard();
+      } else if (modalOpen === modalAddColumn) {
+        addColumn();
+      } else if (modalOpen === modalEditColumn) {
+        editColumn();
+      } else if (modalOpen === modalEditProject) {
+        editProject();
+      }
+    }
 });
 
 columns.forEach((column) => {});

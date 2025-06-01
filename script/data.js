@@ -140,6 +140,7 @@ const defaultBoardData = {
           description:
             "Definir os principais tópicos e a estrutura do vídeo institucional da empresa.",
           tags: ["Média", "Vídeo", "Planejamento"],
+          colorTags: ["low-priority", "medium-priority", "high-priority"],
           date: "2025-06-10T09:00:00Z",
           profile: "images/profile.svg",
         },
@@ -155,6 +156,7 @@ const defaultBoardData = {
           description:
             "Criar os endpoints e a lógica para o sistema de autenticação de usuários.",
           tags: ["Alta", "Desenvolvimento", "Back-end"],
+          colorTags: ["high-priority", "development", "backend"],
           date: "2025-06-15T10:00:00Z",
           profile: "images/profile.svg",
         },
@@ -170,6 +172,7 @@ const defaultBoardData = {
           description:
             "Artigo sobre as atualizações da versão 2.5 publicado no blog e redes sociais.",
           tags: ["Baixa", "Marketing", "Conteúdo"],
+          colorTags: ["low-priority", "marketing", "content"],
           date: "2025-05-20T17:00:00Z",
           profile: "images/profile.svg",
         },
@@ -260,11 +263,12 @@ class User {
 }
 
 class Card {
-  constructor(title, description, tags, id, date) {
+  constructor(title, description, tags, colorTags, id, date) {
     this.id = id || `card-${Date.now()}`;
     this.title = title;
     this.description = description;
     this.tags = tags;
+    this.colorTags = colorTags || "low-priority";
     this.date = date || new Date().toISOString();
     this.profile = user.avatar;
   }
