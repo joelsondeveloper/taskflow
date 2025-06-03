@@ -24,7 +24,6 @@ function addListenerControlsColumns() {
         if (event.target.dataset.column === navButtons[index].dataset.column) {
           event.target.classList.add("active");
           user.boardActive.columnActive = event.target.dataset.column;
-          console.log(user.boardActive.columnActive);
           renderBoard();
         }
       });
@@ -68,6 +67,7 @@ document.addEventListener("dragend", (event) => {
 
   const draggedCard = event.target.closest(".column__card");
   const cardId = draggedCard.dataset.id;
+  const cardColor = draggedCard.dataset.colortags;
 
   let tags = Array.from(draggedCard.querySelectorAll(".column__card__tags p"));
   tags = tags.map((tag) => {
@@ -77,6 +77,7 @@ document.addEventListener("dragend", (event) => {
     draggedCard.dataset.title,
     draggedCard.querySelector(".column__card__description").innerText,
     tags,
+    cardColor.split(","),
     cardId
   );
 
@@ -181,3 +182,5 @@ nameProjects.forEach((project) => {
     showModal(modalEditProject);
   });
 });
+
+

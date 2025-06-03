@@ -196,6 +196,7 @@ function RenderCards(card, column, index, dataColumn) {
             data-description="${card.description}"
             data-date="${card.date}"
             data-tags="${card.tags}"
+            data-colorTags="${card.colorTags}"
             data-index="${index}"
           >
             <div class="column__card__tags">
@@ -223,4 +224,46 @@ function RenderCards(card, column, index, dataColumn) {
   const columnCardTags = column.querySelectorAll(".column__card__tags");
 
   getAndAddTags(columnCardTags[index], dataColumn[index]);
+}
+
+function renderContainerTags(container, tags, colors) {
+  const datalist = container.querySelector(".datalist-tags");
+  const containerList = container.querySelector(
+    ".modal__container__input__tags__list"
+  );
+  const btnAdd = container.querySelector(".modal__container__input__tags__add");
+  const input = container.querySelector(
+    ".modal__container__input__tags__input input"
+  );
+
+  datalist.innerHTML = "";
+
+  Object.keys(tagColors).forEach((key) => {
+    const option = document.createElement("option");
+    option.value = key;
+    datalist.appendChild(option);
+  });
+  containerList.innerHTML = "";
+  tags.forEach((tag, index) => {
+    const tagElement = document.createElement("p");
+    tagElement.classList.add("modal__container__input__tags__list__text");
+    tagElement.textContent = tag;
+    tagElement.style.backgroundColor = tagColors[colors[index]];
+    tagElement.dataset.color = colors[index];
+    containerList.appendChild(tagElement);
+  });
+
+  btnAdd.onclick = () => {
+    const tagValue = input.value.trim();
+    if (!tagValue || !tagColors[tagValue]) return;
+
+    const tagElement = document.createElement("p");
+    tagElement.classList.add("modal__container__input__tags__list__text");
+    tagElement.textContent = tagValue;
+    tagElement.style.backgroundColor = tagColors[tagValue];
+    tagElement.dataset.color = tagValue;
+    containerList.appendChild(tagElement);
+
+    input.value = "";
+  };
 }

@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="style/style.css" />
 
-    <link rel="shortcut icon" href="images/Logo Icon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="images/Logo Icon.svg" type="image/x-icon" />
   </head>
   <body>
     <header class="header">
@@ -362,7 +362,20 @@
       <div class="modal__addCard__input modais__input">
         <input type="text" placeholder="Card title" id="cardAddTitle" />
         <input type="text" placeholder="Description" id="cardAddDescription" />
-        <input type="text" placeholder="tags" id="cardAddTags" />
+        <div class="modal__container__input__tags">
+          <div class="modal__container__input__tags__input">
+            <input
+              type="text"
+              placeholder="tags"
+              class="cardAddTags"
+              list="tags"
+              autocomplete="off"
+            />
+            <datalist id="tags" class="datalist-tags"> </datalist>
+            <button class="modal__container__input__tags__add">Add</button>
+          </div>
+          <div class="modal__container__input__tags__list"></div>
+        </div>
       </div>
       <div class="modal__addCard__button modais__button">
         <!-- <button class="modal__addCard__button__cancel">Cancel</button> -->
@@ -372,7 +385,7 @@
 
     <div class="modal__addColumn modais modal-hide">
       <div class="modal__addColumn__container modais__container">
-        <p class="modal__addColumn__text  modais__text">Add column</p>
+        <p class="modal__addColumn__text modais__text">Add column</p>
         <div class="modal__addColumn__close modais__close">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -397,7 +410,7 @@
 
     <div class="modal__editColumn modais modal-hide">
       <div class="modal__editColumn__container modais__container">
-        <p class="modal__editColumn__text  modais__text">Edit Column Title</p>
+        <p class="modal__editColumn__text modais__text">Edit Column Title</p>
         <div class="modal__editColumn__close modais__close">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -417,13 +430,15 @@
       <div class="modal__editColumn__button modais__button">
         <!-- <button class="modal__editColumn__button__cancel">Cancel</button> -->
         <button class="modal__editColumn__button__add">Add</button>
-        <button class="modal__editColumn__button__delete modal__delete">Delete</button>
+        <button class="modal__editColumn__button__delete modal__delete">
+          Delete
+        </button>
       </div>
     </div>
 
     <div class="modal__editProject modais modal-hide">
       <div class="modal__editProject__container modais__container">
-        <p class="modal__editProject__text  modais__text">Add Board Title</p>
+        <p class="modal__editProject__text modais__text">Add Board Title</p>
         <div class="modal__editProject__close modais__close">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -466,15 +481,29 @@
       <div class="modal__editCard__input modais__input">
         <input type="text" placeholder="Card title" id="cardEditTitle" />
         <input type="text" placeholder="Description" id="cardEditDescription" />
-        <input type="text" placeholder="tags" id="cardEditTags" />
+        <div class="modal__container__input__tags">
+          <div class="modal__container__input__tags__input">
+            <input
+              type="text"
+              placeholder="tags"
+              class="cardAddTags"
+              list="tags2"
+              autocomplete="off"
+            />
+            <datalist id="tags2" class="datalist-tags"> </datalist>
+            <button class="modal__container__input__tags__add">Add</button>
+          </div>
+          <div class="modal__container__input__tags__list"></div>
+        </div>
         <p id="cardEditDate"></p>
-        <select name="column" id="cardEditColumn">
-        </select>
+        <select name="column" id="cardEditColumn"></select>
       </div>
       <div class="modal__editCard__button modais__button">
         <!-- <button class="modal__editCard__button__cancel">Cancel</button> -->
         <button class="modal__editCard__button__add">Add</button>
-        <button class="modal__editCard__button__delete modal__delete">Delete</button>
+        <button class="modal__editCard__button__delete modal__delete">
+          Delete
+        </button>
       </div>
     </div>
 

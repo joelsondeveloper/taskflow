@@ -354,6 +354,7 @@ main {
     border-radius: .5rem;
     color: var(--text-color);
     z-index: 1;
+    min-width: 20rem;
 }
 
 .modais__container {
@@ -387,7 +388,37 @@ main {
     width: 100%;
 }
 
-.modais__button {
+.modal__container__input__tags__add {
+    margin-bottom: .5rem;
+}
+
+.modal__container__input__tags {
+    flex-direction: column;
+}
+
+.modal__container__input__tags__input {
+    display: flex;
+    width: 100%;
+    gap: .5rem;
+}
+
+.modal__container__input__tags__list {
+    display: flex;
+    gap: .5rem;
+    background-color: #333344;
+    padding: .5rem;
+    border-radius: .5rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+
+    p {
+        background-color: var(--blue-color);
+        padding: .25rem .5rem;
+        border-radius: .5rem;
+    }
+}
+
+.modais__button, .modal__container__input__tags {
     background-color: var(--bg-color);
     border-radius: .5rem;
     padding: .5rem 0;

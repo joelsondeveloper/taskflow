@@ -92,10 +92,11 @@ function showModal(modal, cardElement, column, card) {
     modal.setAttribute("data-column", column || user.boardActive.columnActive);
   }
   if (modal === modalEditCard) {
+    const containerInputTags = document.querySelector(".modais:not(.modal-hide) .modal__container__input__tags");
     document.getElementById("cardEditTitle").value = cardElement.dataset.title;
     document.getElementById("cardEditDescription").value = cardElement.dataset.description;
-    document.getElementById("cardEditTags").value = cardElement.dataset.tags;
     cardEditColumn.value = cardElement.closest(".column").dataset.id;
+    renderContainerTags(containerInputTags, cardElement.dataset.tags.split(","), cardElement.dataset.colortags.split(","));
   } else if (modal === modalEditColumn) {
     document.getElementById("columnEditTitle").value = column;
   } else if (modal === modalEditProject) {
@@ -137,20 +138,20 @@ function addCard(column) {
 function editCard() {
   const cardTitle = document.getElementById("cardEditTitle").value;
   const cardDescription = document.getElementById("cardEditDescription").value;
-  const cardTags = document
-    .getElementById("cardEditTags")
-    .value.split(",")
-    .map((tag) => tag.trim().toLowerCase())
-    .filter((tag) => tag !== "");
+  let cardTags = Array.from(document.querySelectorAll(".modal__container__input__tags__list p"));
+  const cardTagsColors = cardTags.map((tag) => tag.dataset.color);
+  cardTags = cardTags.map((tag) => tag.textContent);
+  console.log(cardTagsColors);
   const editColumn = cardEditColumn.value;
   const dataId = modalEditCard.getAttribute("data-id");
+  const dataDate = modalEditCard.getAttribute("data-date");
 
   if ((!cardTitle || !cardDescription || !cardTags) && !editColumn) {
     alert("Preencha todos os campos");
     return;
   }
 
-  const card = new Card(cardTitle, cardDescription, cardTags, dataId);
+  const card = new Card(cardTitle, cardDescription, cardTags, cardTagsColors, dataId, dataDate);
   user.removeCardFromColumn(modalEditCard.dataset.column, dataId);
   // modalEditCard.setAttribute("data-id", user.boardActive.columnActive);
   user.addCardToColumn(editColumn || user.boardActive.columnActive, card);
@@ -160,7 +161,6 @@ function editCard() {
 
   document.getElementById("cardEditTitle").value = "";
   document.getElementById("cardEditDescription").value = "";
-  document.getElementById("cardEditTags").value = "";
 }
 
 function deleteCard(column) {
